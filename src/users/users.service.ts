@@ -10,9 +10,9 @@ export class UsersService {
                 private roleService: RolesService) {
     }
 
-    async createUser(dto: CreateUserDto) {
+    async createUser(dto: CreateUserDto): Promise<User> {
         const user = await this.userModel.create(dto);
-        // const role = await this.roleService.getRoleByValue("USER");
+        const role = await this.roleService.getRoleByValue("USER");
         // await role.$set('roles', [role.id]);
         return user;
     }
@@ -31,9 +31,10 @@ export class UsersService {
         return user;
     }
 
-    async deleteUser(id: number): Promise<void> {
+    async deleteUser(id: number): Promise<User[]> {
         await this.userModel.destroy({
             where: {id}
         });
+        return await this.userModel.findAll();
     }
 }

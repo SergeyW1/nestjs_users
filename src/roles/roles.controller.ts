@@ -12,18 +12,18 @@ export class RolesController {
         return this.roleService.createRole(dto);
     }
 
-    @Get('/:value')
-    getByValue(@Param('value') value: string) {
-        return this.roleService.getRoleByValue(value);
-    }
-
     @Get()
     getAllValue() {
         return this.roleService.getAllRoles();
     }
 
+    @Get('/:value')
+    getByValue(@Param('value') value: string) {
+        return this.roleService.getRoleByValue(value);
+    }
+
     @Delete('/:id')
-    removeRole(@Param('id') id: string) {
+    removeRole(@Param('id') id: number) {
         this.roleService.deleteRole(id);
     }
 }

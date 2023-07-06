@@ -7,24 +7,25 @@ export class RolesService {
     constructor(@InjectModel(Role) private roleModel: typeof Role) {
     }
 
-    async createRole(dto: CreateRoleDto) {
+    async createRole(dto: CreateRoleDto): Promise<Role> {
         const role = await this.roleModel.create(dto);
         return role;
     }
 
-    async getAllRoles() {
+    async getAllRoles(): Promise<Role[]> {
         const roles = await this.roleModel.findAll();
         return roles;
     }
 
-    async getRoleByValue(value: string) {
+    async getRoleByValue(value: string): Promise<Role> {
         const role = await this.roleModel.findOne({
             where: {value}
         });
         return role;
     }
 
-    async deleteRole(id: string) {
+    async deleteRole(id: number): Promise<Role[]> {
         await this.roleModel.destroy({where: {id}});
+        return await this.roleModel.findAll();
     }
 }
