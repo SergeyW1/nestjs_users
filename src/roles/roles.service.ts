@@ -8,11 +8,23 @@ export class RolesService {
     }
 
     async createRole(dto: CreateRoleDto) {
-
+        const role = await this.roleModel.create(dto);
+        return role;
     }
 
-    async getRoleByValue(value:string) {
-
+    async getAllRoles() {
+        const roles = await this.roleModel.findAll();
+        return roles;
     }
 
+    async getRoleByValue(value: string) {
+        const role = await this.roleModel.findOne({
+            where: {value}
+        });
+        return role;
+    }
+
+    async deleteRole(id: string) {
+        await this.roleModel.destroy({where: {id}});
+    }
 }
