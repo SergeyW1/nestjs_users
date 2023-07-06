@@ -13,7 +13,9 @@ export class RolesService {
     }
 
     async getAllRoles(): Promise<Role[]> {
-        const roles = await this.roleModel.findAll();
+        const roles = await this.roleModel.findAll({
+            order: [['id', 'ASC']]
+        });
         return roles;
     }
 
@@ -24,8 +26,11 @@ export class RolesService {
         return role;
     }
 
-    async deleteRole(id: number): Promise<Role[]> {
-        await this.roleModel.destroy({where: {id}});
-        return await this.roleModel.findAll();
+    async deleteRole(id: number): Promise<void> {
+        await this.roleModel.destroy({
+            where: {
+                id
+            }
+        });
     }
 }

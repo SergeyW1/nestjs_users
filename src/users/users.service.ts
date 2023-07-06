@@ -13,12 +13,15 @@ export class UsersService {
     async createUser(dto: CreateUserDto): Promise<User> {
         const user = await this.userModel.create(dto);
         const role = await this.roleService.getRoleByValue("USER");
-        // await role.$set('roles', [role.id]);
+        await user.$set('roles', [role.id]);
         return user;
     }
 
     async getAllUsers(): Promise<User[]> {
-        const users = await this.userModel.findAll();
+        const users = await this.userModel.findAll({
+            order: [['id', 'ASC']],
+            include: {all: true}
+        });
         return users;
     }
 
@@ -31,10 +34,11 @@ export class UsersService {
         return user;
     }
 
-    async deleteUser(id: number): Promise<User[]> {
+    async deleteUser(id: number): Promise<void> {
         await this.userModel.destroy({
-            where: {id}
+            where: {
+                id
+            }
         });
-        return await this.userModel.findAll();
     }
 }
